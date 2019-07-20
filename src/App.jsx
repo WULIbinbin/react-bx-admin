@@ -1,9 +1,11 @@
 
 import React from 'react'
+import { routePath, tabPath } from './router/routes'
+import { RenderRoutes } from './router/index';
+import { RenderTab } from './router/tab'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import About from './pages/About';
-import Home from './pages/Home';
 
+import './styles/index.scss'
 
 export default class App extends React.Component {
 	constructor() {
@@ -12,17 +14,9 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<Router>
-				<div>
-					<ul>
-						<li>
-							<Link to="/">首页</Link>
-						</li>
-						<li>
-							<Link to="/about">关于</Link>
-						</li>
-					</ul>
-					<Route exact path="/" component={Home} />
-					<Route path="/about" component={About} />
+				<div className='bx-main'>
+					<RenderTab routes={tabPath}></RenderTab>
+					<RenderRoutes routes={routePath}></RenderRoutes>
 				</div>
 			</Router>
 		)

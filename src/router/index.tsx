@@ -1,17 +1,16 @@
 import React from "react"
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 
 
-
-export class RenderRoutes extends React.Component {
-  static propTypes = {
-    routes: PropTypes.array.isRequired
-  }
-  constructor(props) {
+interface Props {
+  routes: Array<object>
+}
+export class RenderRoutes extends React.Component<Props> {
+  constructor(props: Props) {
     super(props)
   }
+
   render() {
     let { routes } = this.props
     return (
@@ -27,7 +26,7 @@ export class RenderRoutes extends React.Component {
 };
 
 
-export const RouteWithSubRoutes = route => (
+export const RouteWithSubRoutes = (route) => (
   <Route
     path={route.path}
     exact={route.exact}

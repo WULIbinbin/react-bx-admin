@@ -5,25 +5,30 @@ const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");//
 
 module.exports = {
 	mode: 'development',
-	entry: './src/index.jsx',
+	entry: './src/index.tsx',
 	output: {
 		filename: 'bundle.js',
-		path: path.resolve(__dirname, 'public')
+		path: path.resolve(__dirname, 'dist')
 	},
 	module: {
 		rules: [
 			{
-				test: /(\.jsx|\.js)$/,
-				exclude: /node_modules/,
-				use: {
-					loader: 'babel-loader',
-					options: {
-						presets: ['babel-preset-env', 'babel-preset-react', 'es2015', 'es2016', 'stage-0'],
-					},
-				}
+				test: /(\.tsx|\.ts)$/,
+				exclude: '/node_modules/',
+				use: 'awesome-typescript-loader'
 			},
+			// {
+			// 	test: /(\.jsx|\.js)$/,
+			// 	exclude: /node_modules/,
+			// 	use: {
+			// 		loader: 'babel-loader',
+			// 		options: {
+			// 			presets: ['babel-preset-env', 'babel-preset-react', 'es2015', 'es2016', 'stage-0'],
+			// 		},
+			// 	}
+			// },
 			{
-				test: /\.scss$/,
+				test: /\.less$/,
 				exclude: '/node_modules/',
 				use: [
 
@@ -35,7 +40,7 @@ module.exports = {
 						loader: 'css-loader',//CSS加载器
 					},
 					{
-						loader: 'sass-loader',//SCSS加载器，webpack默认使用node-sass进行编译
+						loader: 'less-loader',//SCSS加载器
 					},
 					{
 						loader: 'postcss-loader',//承载autoprefixer功能
@@ -52,12 +57,12 @@ module.exports = {
 			}
 		]
 	},
-	devtool: 'eval-source-map',
+	devtool: 'source-map',
 	devServer: {
 		inline: true,
 		hot: true,
 		historyApiFallback: true,
-		contentBase: './public'
+		contentBase: './dist'
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
@@ -78,7 +83,7 @@ module.exports = {
 		]
 	},
 	resolve: {
-		extensions: [' ', '.jsx', '.js', '.json', '.scss', '.css'],
+		extensions: [' ', '.ts', '.tsx', '.jsx', '.js', '.json', '.less', '.css'],
 		alias: {}
 	}
 };

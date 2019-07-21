@@ -5,11 +5,12 @@ import { RenderRoutes } from './router/index';
 import { RenderTab } from './router/tab'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
-import './styles/index.scss'
+import './styles/main.less'
 
-export default class App extends React.Component {
-	constructor() {
-		super()
+interface Props { }
+export default class App extends React.Component<Props> {
+	constructor(props: Props) {
+		super(props)
 	}
 	render() {
 		return (

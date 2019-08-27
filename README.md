@@ -1,6 +1,6 @@
 # react-bx-admin
 a react admin demo
 
-## support: typescript
+## 07-21 support typescript
 
 

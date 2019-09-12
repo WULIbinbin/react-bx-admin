@@ -2,20 +2,23 @@ var path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');//用于自动生成html入口文件的插件
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");//将CSS代码提取为独立文件的插件
-//const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");//CSS模块资源优化插件
-const packagejson = require("./package.json");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
-module.exports = {
+
+const webpackConfig = {
 	mode: 'development',
 	entry: {
 		main: ['./src/index.jsx'],
 		vendor: [
-			"antd",
 			"react",
 			"react-dom",
+			"antd",
 			"react-router",
 			"react-router-dom",
-		]
+		],
+		// plugins: [
+
+		// ]
 	},
 	output: {
 		filename: '[name].[hash].js',
@@ -68,7 +71,7 @@ module.exports = {
 			}
 		]
 	},
-	devtool: process.env.NODE_ENV == 'production' ? 'source-map' : false,
+	devtool: false,
 	devServer: {
 		inline: true,
 		hot: true,
@@ -98,12 +101,22 @@ module.exports = {
 		// 	new OptimizeCssAssetsPlugin()
 		// ]
 		splitChunks: {
-			// 抽离入口文件公共模块为commmons模块
+			chunks: "async",
+			minSize: 30000, // 模块的最小体积
+			minChunks: 1, // 模块的最小被引用次数
+			maxAsyncRequests: 5, // 按需加载的最大并行请求数
+			maxInitialRequests: 3, // 一个入口最大并行请求数
+			automaticNameDelimiter: '~', // 文件名的连接符
+			name: true,
 			cacheGroups: {
-				vendor: {
-					name: "vendor",
-					chunks: "initial",
-					minChunks: 2
+				vendors: {
+					test: /[\\/]node_modules[\\/]/,
+					priority: 1
+				},
+				default: {
+					minChunks: 2,
+					priority: -20,
+					reuseExistingChunk: true
 				}
 			}
 		}
@@ -113,3 +126,20 @@ module.exports = {
 		alias: {}
 	}
 };
+
+if (process.env.npm_config_report) {
+	webpackConfig.plugins.push(new BundleAnalyzerPlugin({
+		analyzerMode: 'server',
+		analyzerHost: '127.0.0.1',
+		analyzerPort: 8889,
+		reportFilename: 'report.html',
+		defaultSizes: 'parsed',
+		openAnalyzer: true,
+		generateStatsFile: false,
+		statsFilename: 'stats.json',
+		statsOptions: null,
+		logLevel: 'info'
+	}))
+}
+
+module.exports = webpackConfig;

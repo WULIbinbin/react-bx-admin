@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "webpack-dev-server --inline",
     "build": "set NODE_ENV=production && webpack -p",
-    "view": "node app.js",
+    "view": "set NODE_ENV=production && webpack -p && node ./service/app.js",
+    "analyz": "set npm_config_report=true && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -43,6 +44,7 @@
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "webpack": "^4.39.3",
+    "webpack-bundle-analyzer": "^3.4.1",
     "webpack-cli": "^3.3.8"
   },
   "dependencies": {

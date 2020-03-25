@@ -3,23 +3,22 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');//用于自动生成html入口文件的插件
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");//将CSS代码提取为独立文件的插件
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 const webpackConfig = {
-	mode: 'development',
-	entry: {
-		main: ['./src/index.jsx'],
-		vendor: [
-			"react",
-			"react-dom",
-			"antd",
-			"react-router",
-			"react-router-dom",
-		],
-		// plugins: [
-
-		// ]
-	},
+	mode: 'production',
+	entry:'./src/index.jsx',
+	// entry: {
+	// 	main: './src/index.jsx',
+	// 	vendor: [
+	// 		"react",
+	// 		"react-dom",
+	// 		"antd",
+	// 		"react-router",
+	// 		"react-router-dom",
+	// 	],
+	// },
 	output: {
 		filename: '[name].[hash].js',
 		path: path.resolve(__dirname, 'dist')
@@ -45,16 +44,17 @@ const webpackConfig = {
 				test: /\.less$/,
 				exclude: '/node_modules/',
 				use: [
-
 					{
 						loader: MiniCssExtractPlugin.loader,//建议生产环境采用此方式解耦CSS文件与js文件
 					},
-
 					{
 						loader: 'css-loader',//CSS加载器
 					},
 					{
 						loader: 'less-loader',//LESS加载器
+						options: {
+							javascriptEnabled: true
+						}
 					},
 					{
 						loader: 'postcss-loader',//承载autoprefixer功能
@@ -79,6 +79,12 @@ const webpackConfig = {
 		contentBase: './dist'
 	},
 	plugins: [
+		new webpack.DefinePlugin({
+			'process.env': {
+				NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+			},
+		}),
+		new webpack.ProgressPlugin(),
 		new HtmlWebpackPlugin({
 			title: 'react-bx-admin',
 			filename: 'index.html',
@@ -89,34 +95,43 @@ const webpackConfig = {
 		new MiniCssExtractPlugin({
 			filename: "[name].[hash].css"
 		}),//为抽取出的独立的CSS文件设置配置参数
-		new webpack.DefinePlugin({
-			'process.env': {
-				NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-			},
-		}),
 	],
 	optimization: {
 		//对生成的CSS文件进行代码压缩 mode='production'时生效
-		// minimizer: [
-		// 	new OptimizeCssAssetsPlugin()
-		// ]
+		minimizer: [
+			new UglifyJsPlugin({//压缩js
+				cache: false,
+				parallel: true,
+				sourceMap: true,
+				uglifyOptions:{
+					compress: {
+						drop_console: true,
+						drop_debugger:true
+					},
+				}
+			}),
+			new OptimizeCSSAssetsPlugin()//压缩css
+		],
 		splitChunks: {
-			chunks: "async",
+			//chunks: "all",
 			minSize: 30000, // 模块的最小体积
 			minChunks: 1, // 模块的最小被引用次数
 			maxAsyncRequests: 5, // 按需加载的最大并行请求数
 			maxInitialRequests: 3, // 一个入口最大并行请求数
 			automaticNameDelimiter: '~', // 文件名的连接符
-			name: true,
+			name: false,
 			cacheGroups: {
-				vendors: {
-					test: /[\\/]node_modules[\\/]/,
-					priority: 1
+				vendor: {
+					//react渲染相关的打包一块
+					test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
+					name: 'vendor',
+          chunks: 'all',
 				},
-				default: {
-					minChunks: 2,
-					priority: -20,
-					reuseExistingChunk: true
+				antd:{
+					//antd组件相关的打包一块
+					test:/[\\/]antd[\\/]/,
+					name: 'antd',
+          chunks: 'all',
 				}
 			}
 		}

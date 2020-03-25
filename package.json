@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --inline",
-    "build": "set NODE_ENV=production && webpack -p",
-    "view": "set NODE_ENV=production && webpack -p && node ./service/app.js",
+    "build": "npm run build-mac",
+    "build-mac": "rm -rf ./dist && set NODE_ENV=production && webpack -p",
+    "build-win": "rd/s/q ./dist && set NODE_ENV=production && webpack -p",
+    "view-mac": "npm run build-mac && node ./service/app.js",
+    "view-win": "npm run build-win && node ./service/app.js",
     "analyz": "set npm_config_report=true && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -43,6 +46,7 @@
     "postcss-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.39.3",
     "webpack-bundle-analyzer": "^3.4.1",
     "webpack-cli": "^3.3.8"

@@ -7,7 +7,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 const webpackConfig = {
-	mode: 'production',
+	mode: 'development',
 	entry:'./src/index.jsx',
 	// entry: {
 	// 	main: './src/index.jsx',

@@ -1,6 +1,6 @@
 import React from "react"
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-
+import { Switch, Route, Link } from 'react-router-dom';
+import Tabs from './tab'
 
 
 
@@ -12,13 +12,13 @@ export class RenderRoutes extends React.Component {
   render() {
     let { routes } = this.props
     return (
-      <div>
+      <Switch>
         {
           routes.map((route, i) =>
             <RouteWithSubRoutes key={i} {...route} />
           )
         }
-      </div>
+      </Switch>
     )
   }
 };

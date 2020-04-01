@@ -24,7 +24,7 @@ class App extends React.Component {
 			this.setState({
 				loading:false
 			})
-			history.push('/login')
+			history.replace('/login')
 		}
 	}
 	render() {

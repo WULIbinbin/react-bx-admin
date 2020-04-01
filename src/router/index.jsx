@@ -1,8 +1,5 @@
 import React from "react"
 import { Switch, Route, Link } from 'react-router-dom';
-import Tabs from './tab'
-
-
 
 export class RenderRoutes extends React.Component {
   constructor() {

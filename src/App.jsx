@@ -26,9 +26,9 @@ class App extends React.Component {
 			})
 			history.replace('/login')
 		}
+		console.log(routePath)
 	}
 	render() {
-		let {loading} = this.state
 		return (
 			<Router>
 				<RenderRoutes routes={routePath} />

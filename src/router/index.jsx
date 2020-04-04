@@ -1,24 +1,18 @@
 import React from "react"
 import { Switch, Route, Link } from 'react-router-dom';
 
-export class RenderRoutes extends React.Component {
-  constructor() {
-    super()
-  }
-
-  render() {
-    let { routes } = this.props
-    return (
-      <Switch>
-        {
-          routes.map((route, i) =>
-            <RouteWithSubRoutes key={i} {...route} />
-          )
-        }
-      </Switch>
-    )
-  }
-};
+export const RenderRoutes = (props) => {
+  let {routes} = props
+  return (
+    <Switch>
+      {
+        routes.map((route, i) =>
+          <RouteWithSubRoutes key={i} {...route} />
+        )
+      }
+    </Switch>
+  )
+}
 
 
 export const RouteWithSubRoutes = (route) => (

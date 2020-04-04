@@ -8,8 +8,7 @@ export default class Home extends React.Component {
     super()
   }
   handleTo(){
-    console.log(this)
-    if(this.props.history)this.props.history.replace('/home')
+    if(this.props.history)this.props.history.replace('/index')
   }
   render() {
     return (

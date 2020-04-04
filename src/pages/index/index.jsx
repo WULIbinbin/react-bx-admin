@@ -9,7 +9,7 @@ export default class Index extends React.Component {
     super()
   }
 
-  componentDidMount(){
+  componentDidMount() {
     console.log(this.props)
   }
 
@@ -17,8 +17,10 @@ export default class Index extends React.Component {
   render() {
     return (
       <div className='bx-main'>
-        <RenderTab routes={tabPath}></RenderTab>
-        <RenderRoutes routes={IndexRoute}></RenderRoutes>
+        <RenderTab routes={tabPath}>
+          
+        </RenderTab>
+        <RenderRoutes routes={IndexRoute} />
       </div>
     )
   }

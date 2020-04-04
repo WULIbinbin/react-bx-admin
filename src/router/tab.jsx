@@ -11,7 +11,7 @@ export class RenderTab extends React.Component {
   }
 
   render() {
-    let { routes } = this.props
+    let { routes,children } = this.props
     return (
       <div className='bx-tab'>
         {
@@ -19,6 +19,7 @@ export class RenderTab extends React.Component {
             <RouteWithTabRoutes key={i} {...route} />
           )
         }
+        
       </div>
     )
   }

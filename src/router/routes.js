@@ -4,19 +4,26 @@ import About from "../pages/index/about";
 import List from "../pages/index/list";
 import Login from "../pages/login/index";
 
-export const routePath = [
-  { path: '/', exact: true, name: '首页', component: Index },
-  { path: '/login', name: '登录', component: Login, },
-]
-
 export const IndexRoute = [
-  { path: '/home', exact: true, name: '首页', component: Home, },
+  { path: '/', exact:true, name: '首页', component: Home, },
+  { path: '/index', name: '首页', component: Home, },
   { path: '/about', name: '关于', component: About, },
   { path: '/list', name: '列表', component: List, },
 ]
 
 export const tabPath = [
-  { path: '/', name: '首页', component: Index, },
-  { path: '/about', name: '关于', component: About, },
-  { path: '/list', name: '列表', component: List, },
+  { path: '/index', name: '首页',  },
+  { path: '/about', name: '关于', },
+  { path: '/list', name: '列表', },
+  { path: '/login', name: '去登陆',},
+]
+
+export const otherPath = [
+  //{path: '/404', name: '404', component: NotFound,},
+  { path: '/login', name: '登录', component: Login, },
+]
+
+export const mainPath = [
+  { path: '/', exact:true, name: '首页', component: Index, },
+  { path: '/login',exact:true, name: '登录', component: Login, },
 ]

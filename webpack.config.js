@@ -8,17 +8,10 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 const webpackConfig = {
 	mode: 'development',
-	entry:'./src/index.jsx',
-	// entry: {
-	// 	main: './src/index.jsx',
-	// 	vendor: [
-	// 		"react",
-	// 		"react-dom",
-	// 		"antd",
-	// 		"react-router",
-	// 		"react-router-dom",
-	// 	],
-	// },
+	entry:{
+		index:'./src/index/index.jsx',
+		login:'./src/login/index.jsx'
+	},
 	output: {
 		filename: '[name].[hash].js',
 		path: path.resolve(__dirname, 'dist')
@@ -86,9 +79,18 @@ const webpackConfig = {
 		}),
 		new webpack.ProgressPlugin(),
 		new HtmlWebpackPlugin({
-			title: 'react-bx-admin',
+			title: 'react-bx-admin-index',
 			filename: 'index.html',
 			template: './index.html',
+			chunks: ['index'],
+			showErrors: true,
+			meta: { viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no' }
+		}),//生成入口html文件
+		new HtmlWebpackPlugin({
+			title: 'react-bx-admin-login',
+			filename: 'login.html',
+			template: './login.html',
+			chunks: ['login'],
 			showErrors: true,
 			meta: { viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no' }
 		}),//生成入口html文件

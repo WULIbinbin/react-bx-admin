@@ -5,15 +5,15 @@ import List from "../pages/index/list";
 
 export const IndexRoute = [
   { path: '/', exact:true, name: '首页', component: Home, },
-  { path: '/index', name: '首页', component: Home, },
-  { path: '/about', name: '关于', component: About, },
-  { path: '/list', name: '列表', component: List, },
+  { path: '#/index', name: '首页', component: Home, },
+  { path: '#/about', name: '关于', component: About, },
+  { path: '#/list', name: '列表', component: List, },
 ]
 
 export const tabPath = [
-  { path: '/index', name: '首页',  },
-  { path: '/about', name: '关于', },
-  { path: '/list', name: '列表', },
+  { path: '#/index', name: '首页',  },
+  { path: '#/about', name: '关于', },
+  { path: '#/list', name: '列表', },
 ]
 
 export const otherPath = [

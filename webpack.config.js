@@ -6,15 +6,21 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
+const HtmlWebpackPluginChunks = ['vendor','antd']
+
 const webpackConfig = {
-	mode: 'development',
-	entry:{
+	mode: 'development', // "production" | "development" | "none"
+	entry: {
 		index:'./src/index/index.jsx',
 		login:'./src/login/index.jsx'
 	},
+	//entry:'./src/index/index.jsx',
 	output: {
+		pathinfo: true,
 		filename: '[name].[hash].js',
-		path: path.resolve(__dirname, 'dist')
+		path: path.resolve(__dirname, 'dist'),
+		devtoolModuleFilenameTemplate: info =>
+      path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
 	},
 	module: {
 		rules: [
@@ -68,7 +74,15 @@ const webpackConfig = {
 	devServer: {
 		inline: true,
 		hot: true,
-		historyApiFallback: true,
+		historyApiFallback: {
+			// Paths with dots should still use the history fallback.
+			// See https://github.com/facebookincubator/create-react-app/issues/387.
+			disableDotRule: true,
+			// 指明哪些路径映射到哪个html
+			rewrites: [
+				{ from: /^\/login.html/, to: './dist/login.html' },
+			]
+		},
 		contentBase: './dist'
 	},
 	plugins: [
@@ -79,18 +93,20 @@ const webpackConfig = {
 		}),
 		new webpack.ProgressPlugin(),
 		new HtmlWebpackPlugin({
+			inject: true,
 			title: 'react-bx-admin-index',
-			filename: 'index.html',
+			filename: './index.html',
 			template: './index.html',
-			chunks: ['index'],
+			chunks: ['index',...HtmlWebpackPluginChunks],
 			showErrors: true,
 			meta: { viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no' }
 		}),//生成入口html文件
 		new HtmlWebpackPlugin({
+			inject: true,
 			title: 'react-bx-admin-login',
-			filename: 'login.html',
+			filename: './login.html',
 			template: './login.html',
-			chunks: ['login'],
+			chunks: ['login',...HtmlWebpackPluginChunks],
 			showErrors: true,
 			meta: { viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no' }
 		}),//生成入口html文件
@@ -105,10 +121,10 @@ const webpackConfig = {
 				cache: false,
 				parallel: true,
 				sourceMap: true,
-				uglifyOptions:{
+				uglifyOptions: {
 					compress: {
 						drop_console: true,
-						drop_debugger:true
+						drop_debugger: true
 					},
 				}
 			}),
@@ -127,13 +143,13 @@ const webpackConfig = {
 					//react渲染相关的打包一块
 					test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
 					name: 'vendor',
-          chunks: 'all',
+					chunks: 'all',
 				},
-				antd:{
+				antd: {
 					//antd组件相关的打包一块
-					test:/[\\/]antd[\\/]/,
+					test: /[\\/]antd[\\/]/,
 					name: 'antd',
-          chunks: 'all',
+					chunks: 'all',
 				}
 			}
 		}

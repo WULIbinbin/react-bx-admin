@@ -27,7 +27,7 @@ const App = (props) => {
 		<Router>
 			<RenderTab routes={tabPath}></RenderTab>
 			<Switch>
-				<Route path='/' component={Index}></Route>
+				<RenderRoutes routes={IndexRoute} />
 			</Switch>
 		</Router>
 	)

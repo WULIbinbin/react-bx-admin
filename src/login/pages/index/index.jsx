@@ -17,8 +17,7 @@ export default class Index extends React.Component {
   render() {
     return (
       <div className='bx-main'>
-        2333
-        <RenderRoutes routes={IndexRoute} />
+        我是登录的首页
       </div>
     )
   }

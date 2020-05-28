@@ -1,15 +1,13 @@
 
 import React, { useState,useEffect } from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { HashRouter as Router, Switch } from 'react-router-dom';
 import { RenderRoutes } from './router/index';
-import { otherPath, IndexRoute, mainPath, tabPath } from './router/routes'
-import { RenderTab } from './router/tab'
+import { IndexRoute } from './router/routes'
 import { createBrowserHistory } from 'history'
-import Index from "./pages/index/index";
 import './styles/main.less'
 const history = createBrowserHistory();
 
-const App = (props) => {
+class App extends React.Component{
 	// const [isLogin,setLoginState] = useState({login:false})
 	// const [loading,setLoading] = useState(true)
 
@@ -22,15 +20,19 @@ const App = (props) => {
 	// 		setLoading(false)
 	// 	}
 	// },[loading])
+	componentWillMount(){
+		console.log(this)
+	}
 
-	return (
-		<Router>
-			<RenderTab routes={tabPath}></RenderTab>
-			<Switch>
-				<RenderRoutes routes={IndexRoute} />
-			</Switch>
-		</Router>
-	)
+	render(){
+		return (
+			<Router>
+				<Switch>
+					<RenderRoutes routes={IndexRoute} />
+				</Switch>
+			</Router>
+		)
+	}
 }
 
 export default App

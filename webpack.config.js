@@ -18,7 +18,7 @@ const webpackConfig = {
 	output: {
 		pathinfo: true,
 		filename: '[name].[hash].js',
-		path: path.resolve(__dirname, 'dist'),
+		//path: path.resolve(__dirname, 'dist'),
 		devtoolModuleFilenameTemplate: info =>
       path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
 	},

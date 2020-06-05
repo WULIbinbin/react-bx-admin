@@ -5,7 +5,10 @@ import { RenderRoutes } from './router/index';
 import { IndexRoute } from './router/routes'
 import { createBrowserHistory } from 'history'
 import './styles/main.less'
-const history = createBrowserHistory();
+const history = createBrowserHistory({
+	// 基链接
+	basename: "/index",
+});
 
 class App extends React.Component{
 	// const [isLogin,setLoginState] = useState({login:false})
@@ -26,7 +29,7 @@ class App extends React.Component{
 
 	render(){
 		return (
-			<Router>
+			<Router history={history}>
 				<Switch>
 					<RenderRoutes routes={IndexRoute} />
 				</Switch>

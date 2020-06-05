@@ -1,18 +1,19 @@
-var path = require('path');
+const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');//用于自动生成html入口文件的插件
+//const HtmlWebpackPlugin = require('html-webpack-plugin');//用于自动生成html入口文件的插件
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");//将CSS代码提取为独立文件的插件
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const {generatePagesConfig} = require('./walk-page')
 
-const HtmlWebpackPluginChunks = ['vendor','antd']
+const {pagesConfig} = generatePagesConfig({ pagesDir: './src/pages' })
 
 const webpackConfig = {
 	mode: 'development', // "production" | "development" | "none"
 	entry: {
-		index:'./src/index/index.jsx',
-		login:'./src/login/index.jsx'
+		index:'./src/pages/index/index.jsx',
+		login:'./src/pages/login/index.jsx'
 	},
 	//entry:'./src/index/index.jsx',
 	output: {
@@ -92,27 +93,10 @@ const webpackConfig = {
 			},
 		}),
 		new webpack.ProgressPlugin(),
-		new HtmlWebpackPlugin({
-			inject: true,
-			title: 'react-bx-admin-index',
-			filename: './index.html',
-			template: './index.html',
-			chunks: ['index',...HtmlWebpackPluginChunks],
-			showErrors: true,
-			meta: { viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no' }
-		}),//生成入口html文件
-		new HtmlWebpackPlugin({
-			inject: true,
-			title: 'react-bx-admin-login',
-			filename: './login.html',
-			template: './login.html',
-			chunks: ['login',...HtmlWebpackPluginChunks],
-			showErrors: true,
-			meta: { viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no' }
-		}),//生成入口html文件
 		new MiniCssExtractPlugin({
 			filename: "[name].[hash].css"
 		}),//为抽取出的独立的CSS文件设置配置参数
+		...pagesConfig,
 	],
 	optimization: {
 		//对生成的CSS文件进行代码压缩 mode='production'时生效
